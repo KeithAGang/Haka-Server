@@ -12,7 +12,7 @@
 | |              | || |              | || |              | || |              | |
 | '--------------' || '--------------' || '--------------' || '--------------' |
  '----------------'  '----------------'  '----------------'  '----------------'
- 
+
 ```
 
 A lightweight C++ HTTP server built with Asio (standalone), fmtlib, and ylt/struct_json.
@@ -79,7 +79,7 @@ This project currently uses a simple structure (single header and source file). 
 
 ### Using CMake
 
-Build the project with CMake, then run the `Makefile` or `.sln` and copy the contents of `build/include` into your project or include directory.  
+Git clone or doenload this project, Make a build folder inside this project directory then Build the project with CMake, then run the `Makefile` or `.sln` and copy the contents of `build/include` into your project or include directory.  
 You can also run the build/`haka_example` to test the basic features of this project.
 
 ### Using g++
