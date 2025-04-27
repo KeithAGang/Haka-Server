@@ -1,0 +1,59 @@
+body {
+    display: flex;
+    font-family: sans-serif;
+    background-color: #f0f0f0;
+    color: #333;
+    overflow: hidden;
+    /* margin: 10px; */
+}
+
+#main {
+    flex-direction: column;
+    /* justify-content: center; */
+    align-items: center;
+    display: flex;
+    width: 80%;
+    height: 100vh;
+    margin: auto;
+    overflow: hidden;
+    
+}
+
+h1 {
+    color: #0056b3; /* A shade of blue */
+}
+#container {
+    display: flex;
+    flex-direction: column;
+    margin-top: 0.75rem;
+    padding: 0.85rem;
+    align-items: flex-start;
+    gap: 1.2rem;
+}
+
+button {
+    background-color: #007bff; /* Bootstrap primary blue */
+    color: white;
+    border: none;
+    margin: 0.35rem;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+}
+
+#json {
+    font-family: monospace;
+    white-space: pre-wrap;
+    width: 30vw;
+    background-color: #736d6d;
+    color: white;
+    border: 1px solid #ddd;
+    padding: 10px;
+    border-radius: 5px;
+}
+
