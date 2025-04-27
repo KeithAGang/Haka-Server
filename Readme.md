@@ -52,11 +52,10 @@ To build and run Haka Server, ensure the following dependencies:
 
 1. **Asio Standalone**:
      - Provides asynchronous networking capabilities.
-     - Include by defining `ASIO_STANDALONE` before including `<asio.hpp>`.
 
 2. **fmtlib**:
      - Enables safe and efficient formatted output (logging, messages).
-     - Include by defining `FMT_HEADER_ONLY` before including `<fmt/core.h>` and `<fmt/color.h>`.
+     - Enables color formatted output.
 
 3. **ylt/struct_json**:
      - Simplifies JSON serialization and deserialization through struct reflection.
