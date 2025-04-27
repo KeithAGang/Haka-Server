@@ -93,6 +93,21 @@ int main() {
 
         // --- Run the server ---
         // This call is blocking and will run the io_context.
+
+        // 5. Post Request
+        app.Post("/post", [](const Haka::Request& req, Haka::Response& res)
+        {
+          struct Response {
+            std::string title;
+            std::string message;
+          };
+          Response response {
+            .title = "message",
+            .message = "Post Successfull"
+          };
+          res.JSON(response);
+        });
+
         app.run();
 
     } catch (const std::exception& e) {
