@@ -1,4 +1,4 @@
-#include "haka.hpp" // Your server header file
+#include "Haka.hpp" // Your server header file
 #include <fmt/format.h>     // For fmt::format
 #include <vector>           // Used in the JSON example struct
 #include <string>           // Used in various places
