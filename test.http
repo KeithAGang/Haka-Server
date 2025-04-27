@@ -1,10 +1,12 @@
-GET http://127.0.0.1:8080
+@port = 8081
+
+ GET http://127.0.0.1:{{port}}
 
 ###
-GET http://127.0.0.1:8080/json
+GET http://127.0.0.1:{{port}}/json
 
 ###
-POST http://127.0.0.1:8080/post 
+POST http://127.0.0.1:{{port}}/post 
 Content-Type: application/json
 
 {
