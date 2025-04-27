@@ -18,7 +18,7 @@ struct MyData {
 int main() {
     // Define host and port
     const std::string host = "127.0.0.1";
-    const unsigned short port = 8080;
+    const unsigned short port = 8081;
     const std::string static_dir = "./public";
 
     try {
