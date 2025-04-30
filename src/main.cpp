@@ -6,6 +6,28 @@
 #include <chrono> // Needed for random seed
 #include <cmath> // Needed for std::round
 
+struct Product {
+    int id;
+    std::string name;
+    double price;
+};
+
+Haka::Router createNewEndpoints()
+{
+  Haka::Router new_router;
+
+  new_router.Get("/", [](const Haka::Request& req, Haka::Response& res)
+  {
+    Haka::JsonResponse msg {
+      .title = "Hi",
+      .message = "From new Router"
+    };
+
+    res.JSON(msg);
+  });
+
+  return new_router;
+}
 // Forward declaration for the function that creates the user API router.
 // This function is implemented in users.cpp.
 Haka::Router createUserApiRouter(); // Function now returns a Router instance
@@ -13,11 +35,7 @@ Haka::Router createUserApiRouter(); // Function now returns a Router instance
 // Define a simple custom struct for JSON serialization.
 // This struct is placed here because it's used directly in routes defined in main.cpp.
 // For a larger project, common structs would go in a shared header.
-struct Product {
-    int id;
-    std::string name;
-    double price;
-};
+
 
 // STRUCT_JSON_DEFINE is not needed due to compile-time reflection
 
@@ -137,6 +155,10 @@ int main(int argc, char* argv[]) { // Added command-line arguments
     // Routes defined in user_api_router (like "/list", "/profile") will now be accessible
     // under this prefix (e.g., "/api/users/list", "/api/users/profile").
     server.mount("/api/users", user_api_router);
+
+    Haka::Router new_api_router = createNewEndpoints();
+
+    server.mount("/api/new", new_api_router);
 
 
     // --- Serve Static Files ---
