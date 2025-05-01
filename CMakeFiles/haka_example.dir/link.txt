@@ -1,0 +1,1 @@
+/usr/bin/c++ -Wl,--dependency-file=CMakeFiles/haka_example.dir/link.d CMakeFiles/haka_example.dir/src/main.cpp.o CMakeFiles/haka_example.dir/src/users.cpp.o -o haka_example

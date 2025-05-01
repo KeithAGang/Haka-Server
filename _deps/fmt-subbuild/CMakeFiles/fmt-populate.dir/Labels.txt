@@ -1,0 +1,14 @@
+# Target labels
+ fmt-populate
+# Source files and their labels
+/home/xbeef/work/Haka-Server/_deps/fmt-subbuild/CMakeFiles/fmt-populate
+/home/xbeef/work/Haka-Server/_deps/fmt-subbuild/CMakeFiles/fmt-populate.rule
+/home/xbeef/work/Haka-Server/_deps/fmt-subbuild/CMakeFiles/fmt-populate-complete.rule
+/home/xbeef/work/Haka-Server/_deps/fmt-subbuild/fmt-populate-prefix/src/fmt-populate-stamp/fmt-populate-build.rule
+/home/xbeef/work/Haka-Server/_deps/fmt-subbuild/fmt-populate-prefix/src/fmt-populate-stamp/fmt-populate-configure.rule
+/home/xbeef/work/Haka-Server/_deps/fmt-subbuild/fmt-populate-prefix/src/fmt-populate-stamp/fmt-populate-download.rule
+/home/xbeef/work/Haka-Server/_deps/fmt-subbuild/fmt-populate-prefix/src/fmt-populate-stamp/fmt-populate-install.rule
+/home/xbeef/work/Haka-Server/_deps/fmt-subbuild/fmt-populate-prefix/src/fmt-populate-stamp/fmt-populate-mkdir.rule
+/home/xbeef/work/Haka-Server/_deps/fmt-subbuild/fmt-populate-prefix/src/fmt-populate-stamp/fmt-populate-patch_disconnected.rule
+/home/xbeef/work/Haka-Server/_deps/fmt-subbuild/fmt-populate-prefix/src/fmt-populate-stamp/fmt-populate-test.rule
+/home/xbeef/work/Haka-Server/_deps/fmt-subbuild/fmt-populate-prefix/src/fmt-populate-stamp/fmt-populate-update_disconnected.rule

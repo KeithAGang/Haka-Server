@@ -1,0 +1,46 @@
+{
+	"sources" : 
+	[
+		{
+			"file" : "/home/xbeef/work/Haka-Server/_deps/yalantinglibs-subbuild/CMakeFiles/yalantinglibs-populate"
+		},
+		{
+			"file" : "/home/xbeef/work/Haka-Server/_deps/yalantinglibs-subbuild/CMakeFiles/yalantinglibs-populate.rule"
+		},
+		{
+			"file" : "/home/xbeef/work/Haka-Server/_deps/yalantinglibs-subbuild/CMakeFiles/yalantinglibs-populate-complete.rule"
+		},
+		{
+			"file" : "/home/xbeef/work/Haka-Server/_deps/yalantinglibs-subbuild/yalantinglibs-populate-prefix/src/yalantinglibs-populate-stamp/yalantinglibs-populate-build.rule"
+		},
+		{
+			"file" : "/home/xbeef/work/Haka-Server/_deps/yalantinglibs-subbuild/yalantinglibs-populate-prefix/src/yalantinglibs-populate-stamp/yalantinglibs-populate-configure.rule"
+		},
+		{
+			"file" : "/home/xbeef/work/Haka-Server/_deps/yalantinglibs-subbuild/yalantinglibs-populate-prefix/src/yalantinglibs-populate-stamp/yalantinglibs-populate-download.rule"
+		},
+		{
+			"file" : "/home/xbeef/work/Haka-Server/_deps/yalantinglibs-subbuild/yalantinglibs-populate-prefix/src/yalantinglibs-populate-stamp/yalantinglibs-populate-install.rule"
+		},
+		{
+			"file" : "/home/xbeef/work/Haka-Server/_deps/yalantinglibs-subbuild/yalantinglibs-populate-prefix/src/yalantinglibs-populate-stamp/yalantinglibs-populate-mkdir.rule"
+		},
+		{
+			"file" : "/home/xbeef/work/Haka-Server/_deps/yalantinglibs-subbuild/yalantinglibs-populate-prefix/src/yalantinglibs-populate-stamp/yalantinglibs-populate-patch_disconnected.rule"
+		},
+		{
+			"file" : "/home/xbeef/work/Haka-Server/_deps/yalantinglibs-subbuild/yalantinglibs-populate-prefix/src/yalantinglibs-populate-stamp/yalantinglibs-populate-test.rule"
+		},
+		{
+			"file" : "/home/xbeef/work/Haka-Server/_deps/yalantinglibs-subbuild/yalantinglibs-populate-prefix/src/yalantinglibs-populate-stamp/yalantinglibs-populate-update_disconnected.rule"
+		}
+	],
+	"target" : 
+	{
+		"labels" : 
+		[
+			"yalantinglibs-populate"
+		],
+		"name" : "yalantinglibs-populate"
+	}
+}

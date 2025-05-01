@@ -1,0 +1,46 @@
+{
+	"sources" : 
+	[
+		{
+			"file" : "/home/xbeef/work/Haka-Server/_deps/asio-subbuild/CMakeFiles/asio-populate"
+		},
+		{
+			"file" : "/home/xbeef/work/Haka-Server/_deps/asio-subbuild/CMakeFiles/asio-populate.rule"
+		},
+		{
+			"file" : "/home/xbeef/work/Haka-Server/_deps/asio-subbuild/CMakeFiles/asio-populate-complete.rule"
+		},
+		{
+			"file" : "/home/xbeef/work/Haka-Server/_deps/asio-subbuild/asio-populate-prefix/src/asio-populate-stamp/asio-populate-build.rule"
+		},
+		{
+			"file" : "/home/xbeef/work/Haka-Server/_deps/asio-subbuild/asio-populate-prefix/src/asio-populate-stamp/asio-populate-configure.rule"
+		},
+		{
+			"file" : "/home/xbeef/work/Haka-Server/_deps/asio-subbuild/asio-populate-prefix/src/asio-populate-stamp/asio-populate-download.rule"
+		},
+		{
+			"file" : "/home/xbeef/work/Haka-Server/_deps/asio-subbuild/asio-populate-prefix/src/asio-populate-stamp/asio-populate-install.rule"
+		},
+		{
+			"file" : "/home/xbeef/work/Haka-Server/_deps/asio-subbuild/asio-populate-prefix/src/asio-populate-stamp/asio-populate-mkdir.rule"
+		},
+		{
+			"file" : "/home/xbeef/work/Haka-Server/_deps/asio-subbuild/asio-populate-prefix/src/asio-populate-stamp/asio-populate-patch_disconnected.rule"
+		},
+		{
+			"file" : "/home/xbeef/work/Haka-Server/_deps/asio-subbuild/asio-populate-prefix/src/asio-populate-stamp/asio-populate-test.rule"
+		},
+		{
+			"file" : "/home/xbeef/work/Haka-Server/_deps/asio-subbuild/asio-populate-prefix/src/asio-populate-stamp/asio-populate-update_disconnected.rule"
+		}
+	],
+	"target" : 
+	{
+		"labels" : 
+		[
+			"asio-populate"
+		],
+		"name" : "asio-populate"
+	}
+}
