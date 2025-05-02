@@ -1,0 +1,4 @@
+.cache/*
+CMakeFiles/*
+_deps/*
+./cmake_install.cmake

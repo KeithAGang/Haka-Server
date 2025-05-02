@@ -10,6 +10,7 @@ set(CMAKE_CXX_EXTENSIONS OFF) # Prefer standard C++ features
 
 # Paths for Headers and Static Files in the build directory
 set(CMAKE_BUILD_INCLUDE_DIR "${CMAKE_BINARY_DIR}/include")
+set(CMAKE_VENDOR_INCLUDE_DIR "${CMAKE_SOURCE_DIR}/_deps")
 # The public directory will be copied directly to CMAKE_BINARY_DIR
 
 # Create output directories in the build tree
@@ -45,6 +46,14 @@ FetchContent_Declare(
   GIT_TAG asio-1-24-0 # Using a specific tag
 )
 
+FetchContent_Declare(
+  spdlog
+  GIT_REPOSITORY https://github.com/gabime/spdlog.git
+  GIT_TAG v1.15.2 # Using a specific tag
+)
+
+
+
 # Download yalantinglibs (contains struct_json)
 FetchContent_Declare(
   yalantinglibs
@@ -72,46 +81,13 @@ FetchContent_Populate(asio)
 FetchContent_Populate(yalantinglibs)
 FetchContent_Populate(iguana)
 FetchContent_Populate(frozen)
+FetchContent_Populate(spdlog)
 
 
 # --- Copy Headers to Build Include Directory ---
 # Copy our own headers from src/include to build/include
 file(COPY ${CMAKE_SOURCE_DIR}/include/haka DESTINATION ${CMAKE_BUILD_INCLUDE_DIR})
-file(COPY ${CMAKE_SOURCE_DIR}/include/haka.hpp DESTINATION ${CMAKE_BUILD_INCLUDE_DIR}) # Copy the main header
-
-# Copy external headers with custom commands
-add_custom_target(copy_external_headers ALL
-  # Copy fmt headers
-  COMMAND ${CMAKE_COMMAND} -E copy_directory
-    ${fmt_SOURCE_DIR}/include/fmt
-    ${CMAKE_BUILD_INCLUDE_DIR}/fmt
-
-  # Copy asio directory and main header
-  COMMAND ${CMAKE_COMMAND} -E copy_directory
-    ${asio_SOURCE_DIR}/asio/include/asio
-    ${CMAKE_BUILD_INCLUDE_DIR}/asio
-  COMMAND ${CMAKE_COMMAND} -E copy
-    ${asio_SOURCE_DIR}/asio/include/asio.hpp
-    ${CMAKE_BUILD_INCLUDE_DIR}/asio.hpp
-
-  # Copy ylt directory (contains struct_json)
-  COMMAND ${CMAKE_COMMAND} -E copy_directory
-    ${yalantinglibs_SOURCE_DIR}/include/ylt
-    ${CMAKE_BUILD_INCLUDE_DIR}/ylt
-
-  # Copy iguana directory (if needed)
-  COMMAND ${CMAKE_COMMAND} -E copy_directory
-    ${iguana_SOURCE_DIR}/iguana
-    ${CMAKE_BUILD_INCLUDE_DIR}/iguana
-
-  # Copy frozen directory (if needed)
-  COMMAND ${CMAKE_COMMAND} -E copy_directory
-    ${frozen_SOURCE_DIR}/include/frozen
-    ${CMAKE_BUILD_INCLUDE_DIR}/frozen
-
-  # Indicate completion
-  COMMENT "Copying external headers to build include directory"
-)
+file(COPY ${CMAKE_SOURCE_DIR}/include/Haka.hpp DESTINATION ${CMAKE_BUILD_INCLUDE_DIR}) # Copy the main header
 
 # Define the example executable
 add_executable(haka_example
@@ -120,11 +96,16 @@ add_executable(haka_example
 )
 
 # Make haka_example depend on copying headers
-add_dependencies(haka_example copy_external_headers) # Depend on the custom target
 
 # Specify include directories for the target
 target_include_directories(haka_example PRIVATE
   ${CMAKE_BUILD_INCLUDE_DIR} # Include the directory where all headers are copied
+  ${CMAKE_VENDOR_INCLUDE_DIR}/asio-src/asio/include
+  ${CMAKE_VENDOR_INCLUDE_DIR}/yalantinglibs-src/include
+  ${CMAKE_VENDOR_INCLUDE_DIR}/iguana-src
+  ${CMAKE_VENDOR_INCLUDE_DIR}/frozen-src/include
+  ${CMAKE_VENDOR_INCLUDE_DIR}/fmt-src/include
+  ${CMAKE_VENDOR_INCLUDE_DIR}/spdlog-src/include  
   # You might also need to include the source directory if you have headers there
   # ${CMAKE_SOURCE_DIR}/include # If you prefer to include directly from source
 )
@@ -163,7 +144,7 @@ endif()
 
 # Install the headers from the build include directory
 install(DIRECTORY ${CMAKE_BUILD_INCLUDE_DIR}/ DESTINATION include)
-
+install(DIRECTORY ${CMAKE_VENDOR_INCLUDE_DIR}/ DESTINATION include)
 # Install the public directory contents from the source tree
 install(DIRECTORY ${CMAKE_SOURCE_DIR}/public/ DESTINATION public)
 
@@ -176,4 +157,5 @@ install(TARGETS haka_example
 message(STATUS "Project Name: ${PROJECT_NAME}")
 message(STATUS "Project Version: ${PROJECT_VERSION}")
 message(STATUS "Build Include Directory: ${CMAKE_BUILD_INCLUDE_DIR}")
+message(STATUS "Build Vendor Include Directory: ${CMAKE_VENDOR_INCLUDE_DIR}")
 message(STATUS "Build Public Directory: ${CMAKE_BINARY_DIR}/public")
