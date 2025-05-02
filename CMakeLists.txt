@@ -46,6 +46,14 @@ FetchContent_Declare(
   GIT_TAG asio-1-24-0 # Using a specific tag
 )
 
+FetchContent_Declare(
+  spdlog
+  GIT_REPOSITORY https://github.com/gabime/spdlog.git
+  GIT_TAG v1.15.2 # Using a specific tag
+)
+
+
+
 # Download yalantinglibs (contains struct_json)
 FetchContent_Declare(
   yalantinglibs
@@ -73,6 +81,7 @@ FetchContent_Populate(asio)
 FetchContent_Populate(yalantinglibs)
 FetchContent_Populate(iguana)
 FetchContent_Populate(frozen)
+FetchContent_Populate(spdlog)
 
 
 # --- Copy Headers to Build Include Directory ---
@@ -96,8 +105,7 @@ target_include_directories(haka_example PRIVATE
   ${CMAKE_VENDOR_INCLUDE_DIR}/iguana-src
   ${CMAKE_VENDOR_INCLUDE_DIR}/frozen-src/include
   ${CMAKE_VENDOR_INCLUDE_DIR}/fmt-src/include
-
-  
+  ${CMAKE_VENDOR_INCLUDE_DIR}/spdlog-src/include  
   # You might also need to include the source directory if you have headers there
   # ${CMAKE_SOURCE_DIR}/include # If you prefer to include directly from source
 )

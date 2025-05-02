@@ -1,6 +1,7 @@
 #ifndef HAKA_SERVER_HPP
 #define HAKA_SERVER_HPP
 
+#include <endian.h>
 #include <string>
 
 // External library includes (Asio for networking)
@@ -47,12 +48,12 @@ public:
         server_(server)             // Store a reference to the server
   {
     try {
-      log_message("INFO",
+      log_message(LogLevel::INFO,
                   fmt::format("New Connection From {}",
                               socket_.remote_endpoint().address().to_string()));
     } catch (const asio::system_error &e) {
       log_message(
-          "WARN",
+          LogLevel::WARN,
           fmt::format("Could not get remote endpoint address: {}", e.what()));
     }
   }
@@ -99,7 +100,7 @@ public:
                   asio::ip::tcp::endpoint(asio::ip::make_address(host), port)),
         host_(host), port_(port), router_() // Initialize the router
   {
-    log_message("INFO",
+    log_message(LogLevel::INFO,
                 fmt::format("Server initialized on {}:{}", host_, port_));
   }
 
@@ -107,7 +108,7 @@ public:
    * @brief Destructor for the Server.
    * Cleans up resources (io_context and acceptor handle this via RAII).
    */
-  inline ~Server() { log_message("INFO", "Server shutting down."); }
+  inline ~Server() { log_message(LogLevel::INFO, "Server shutting down."); }
 
   // --- Public methods for defining routes (Delegating to internal router) ---
 
@@ -179,10 +180,10 @@ public:
     // Print the running address in yellow color
     fmt::print(fg(fmt::color::yellow), "Running on http://{}:{}\n\n", host_,
                port_);
-    log_message("INFO", "Haka server starting...");
+    log_message(LogLevel::INFO, "Haka server starting...");
     do_accept();       // Start the asynchronous accept operation
     io_context_.run(); // Run the I/O event loop (this call blocks)
-    log_message("INFO", "Haka server stopped.");
+    log_message(LogLevel::INFO, "Haka server stopped.");
   }
 
   /**
@@ -211,18 +212,19 @@ private:
    * it creates a new Connection object and starts processing it.
    */
   inline void do_accept() {
-    acceptor_.async_accept([this](asio::error_code ec,
-                                  asio::ip::tcp::socket socket) {
-      if (!ec) {
-        auto conn = std::make_shared<Connection>(std::move(socket), *this);
-        conn->start(); // Connection is fully defined above
-      } else {
-        if (ec != asio::error::operation_aborted) {
-          log_message("ERROR", fmt::format("Accept error: {}", ec.message()));
-        }
-      }
-      do_accept(); // Continue accepting new connections
-    });
+    acceptor_.async_accept(
+        [this](asio::error_code ec, asio::ip::tcp::socket socket) {
+          if (!ec) {
+            auto conn = std::make_shared<Connection>(std::move(socket), *this);
+            conn->start(); // Connection is fully defined above
+          } else {
+            if (ec != asio::error::operation_aborted) {
+              log_message(LogLevel::ERROR,
+                          fmt::format("Accept error: {}", ec.message()));
+            }
+          }
+          do_accept(); // Continue accepting new connections
+        });
   }
 
   asio::io_context io_context_;      // Manages asynchronous operations
@@ -254,7 +256,7 @@ inline void Connection::read_request() {
                   http_version;
 
               if (request_.method.empty() || request_.path.empty()) {
-                log_message("WARN",
+                log_message(LogLevel::WARN,
                             fmt::format("Malformed request line: {}", line));
                 response_.status_code = 400;
                 response_.Text("Bad Request");
@@ -262,8 +264,9 @@ inline void Connection::read_request() {
                 return;
               }
 
-              log_message("INFO", fmt::format("Request: {} {}", request_.method,
-                                              request_.path));
+              log_message(LogLevel::INFO,
+                          fmt::format("Request: {} {}", request_.method,
+                                      request_.path));
 
               while (std::getline(stream, line) && line != "\r") {
                 std::size_t colon_pos = line.find(':');
@@ -276,7 +279,7 @@ inline void Connection::read_request() {
                   }
                   request_.headers[header_name] = header_value;
                 } else {
-                  log_message("WARN",
+                  log_message(LogLevel::WARN,
                               fmt::format("Malformed header line: {}", line));
                 }
               }
@@ -285,7 +288,7 @@ inline void Connection::read_request() {
               process_request();
             } else {
               log_message(
-                  "WARN",
+                  LogLevel::WARN,
                   "Received empty or invalid request line after reading.");
               response_.status_code = 400;
               response_.Text("Bad Request");
@@ -298,7 +301,8 @@ inline void Connection::read_request() {
 
         } else if (ec != asio::error::operation_aborted &&
                    ec != asio::error::eof) {
-          log_message("ERROR", fmt::format("Read error: {}", ec.message()));
+          log_message(LogLevel::ERROR,
+                      fmt::format("Read error: {}", ec.message()));
         }
       });
 }
@@ -308,12 +312,13 @@ inline void Connection::process_request() {
   try {
     handler(request_, response_);
   } catch (const std::exception &e) {
-    log_message("ERROR", fmt::format("Handler threw exception for {} {}: {}",
-                                     request_.method, request_.path, e.what()));
+    log_message(LogLevel::ERROR,
+                fmt::format("Handler threw exception for {} {}: {}",
+                            request_.method, request_.path, e.what()));
     response_.status_code = 500;
     response_.Text("Internal Server Error");
   } catch (...) {
-    log_message("ERROR",
+    log_message(LogLevel::ERROR,
                 fmt::format("Handler threw unknown exception for {} {}",
                             request_.method, request_.path));
     response_.status_code = 500;
@@ -332,24 +337,24 @@ inline void Connection::send_response() {
                                  std::size_t bytes_transferred) {
         if (!ec) {
           log_message(
-              "INFO",
+              LogLevel::INFO,
               fmt::format("Sent response ({} bytes) for {} {} with status {}",
                           bytes_transferred, request_.method, request_.path,
                           response_.status_code));
           asio::error_code shutdown_ec;
           socket_.shutdown(asio::ip::tcp::socket::shutdown_both, shutdown_ec);
           if (shutdown_ec && shutdown_ec != asio::error::not_connected) {
-            log_message("WARN", fmt::format("Socket shutdown error: {}",
-                                            shutdown_ec.message()));
+            log_message(LogLevel::WARN, fmt::format("Socket shutdown error: {}",
+                                                    shutdown_ec.message()));
           }
           asio::error_code close_ec;
           socket_.close(close_ec);
           if (close_ec && close_ec != asio::error::not_connected) {
-            log_message("WARN", fmt::format("Socket close error: {}",
-                                            close_ec.message()));
+            log_message(LogLevel::WARN, fmt::format("Socket close error: {}",
+                                                    close_ec.message()));
           }
         } else if (ec != asio::error::operation_aborted) {
-          log_message("ERROR",
+          log_message(LogLevel::ERROR,
                       fmt::format("Write error for {} {}: {}", request_.method,
                                   request_.path, ec.message()));
         }

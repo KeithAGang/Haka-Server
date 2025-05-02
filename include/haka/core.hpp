@@ -12,7 +12,6 @@
 #include <sstream>    // For string streams
 #include <string>
 #include <unordered_map>
-#include <vector>
 
 // External library includes
 #define FMT_HEADER_ONLY // Define this if you are using fmt as a header-only
@@ -29,6 +28,7 @@ namespace Haka {
 class Request;
 class Response;
 class Server; // Needed for RouteHandler alias
+enum class LogLevel { DEBUG, INFO, WARN, ERROR };
 
 // Global flag to enable debug logging
 inline bool enable_debug_logging = false; // Default is false
@@ -69,9 +69,25 @@ inline std::string guess_mime_type(const std::string &file_path) {
  * @param level The log level (e.g., "INFO", "DEBUG", "ERROR").
  * @param message The message to log.
  */
-inline void log_message(const std::string &level, const std::string &message) {
+
+inline const char *log_level_to_string(const LogLevel &level) {
+  switch (level) {
+  case LogLevel::DEBUG:
+    return "DEBUG";
+  case LogLevel::INFO:
+    return "INFO";
+  case LogLevel::WARN:
+    return "WARN";
+  case LogLevel::ERROR:
+    return "ERROR";
+  default:
+    return "UNKNOWN";
+  }
+}
+
+inline void log_message(const LogLevel &level, const std::string &message) {
   // Only print DEBUG messages if the flag is set
-  if (level == "DEBUG" && !enable_debug_logging) {
+  if (level == LogLevel::DEBUG && !enable_debug_logging) {
     return;
   }
 
@@ -80,19 +96,27 @@ inline void log_message(const std::string &level, const std::string &message) {
   std::stringstream ss;
   ss << std::put_time(std::localtime(&in_time_t), "%Y-%m-%d %H:%M:%S");
 
-  if (level == "ERROR") {
-    fmt::print(fg(fmt::color::red), "[{}] [{}] {}\n", ss.str(), level, message);
-  } else if (level == "WARN") {
-    fmt::print(fg(fmt::color::yellow), "[{}] [{}] {}\n", ss.str(), level,
-               message);
-  } else if (level == "INFO") {
-    fmt::print(fg(fmt::color::green), "[{}] [{}] {}\n", ss.str(), level,
-               message);
-  } else if (level == "DEBUG") {
-    fmt::print(fg(fmt::color::blue), "[{}] [{}] {}\n", ss.str(), level,
+  switch (level) {
+  case LogLevel::ERROR:
+    fmt::print(fg(fmt::color::red), "[{}] [{}] {}\n", ss.str(),
+               log_level_to_string(level), message);
+    break;
+  case LogLevel::WARN:
+    fmt::print(fg(fmt::color::yellow), "[{}] [{}] {}\n", ss.str(),
+               log_level_to_string(level), message);
+    break;
+  case LogLevel::INFO:
+    fmt::print(fg(fmt::color::green), "[{}] [{}] {}\n", ss.str(),
+               log_level_to_string(level), message);
+    break;
+  case LogLevel::DEBUG:
+    fmt::print(fg(fmt::color::blue), "[{}] [{}] {}\n", ss.str(),
+               log_level_to_string(level),
                message); // Use blue for debug
-  } else {
-    fmt::print("[{}] [{}] {}\n", ss.str(), level, message);
+    break;
+  default:
+    fmt::print(fmt::fg(fmt::color::white), "[{}] [{}] {}\n", ss.str(),
+               log_level_to_string(level), message);
   }
 }
 
@@ -170,7 +194,7 @@ public:
       // Serialize the content to the body member
       struct_json::to_json(json_content, body);
     } catch (const std::exception &e) {
-      log_message("ERROR",
+      log_message(LogLevel::ERROR,
                   fmt::format("JSON serialization error: {}!", e.what()));
       status_code = 500;
       body = "Internal Server Error";
@@ -204,7 +228,7 @@ public:
   inline bool sendFile(const std::string &file_path) {
     std::ifstream file(file_path, std::ios::binary | std::ios::ate);
     if (!file.is_open()) {
-      log_message("WARN", fmt::format("File not found: {}", file_path));
+      log_message(LogLevel::WARN, fmt::format("File not found: {}", file_path));
       status_code = 404;
       body = fmt::format("File not found: {}", file_path);
       headers["Content-Type"] = "text/plain";
@@ -216,7 +240,8 @@ public:
 
     body.resize(size);
     if (!file.read(&body[0], size)) {
-      log_message("ERROR", fmt::format("Error reading file: {}", file_path));
+      log_message(LogLevel::ERROR,
+                  fmt::format("Error reading file: {}", file_path));
       status_code = 500;
       body = "Internal Server Error";
       headers["Content-Type"] = "text/plain";

@@ -1,6 +1,7 @@
 #include "Haka.hpp" // Include the main Haka header
-#include <chrono>   // Needed for random seed
-#include <cmath>    // Needed for std::round
+#include "haka/core.hpp"
+#include <chrono> // Needed for random seed
+#include <cmath>  // Needed for std::round
 #include <cstring>
 #include <iostream>
 #include <random> // Needed for generating random product data
@@ -43,7 +44,7 @@ int main(int argc, char *argv[]) { // Added command-line arguments
 
     if (std::strcmp(argv[i], "-debug")) {
       Haka::enable_debug_logging = true;
-      Haka::log_message("INFO", "Debug logging enabled.");
+      Haka::log_message(Haka::LogLevel::INFO, "Debug logging enabled.");
       break; // Found the flag, no need to check further
     }
   }

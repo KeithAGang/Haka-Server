@@ -231,6 +231,10 @@ FETCHCONTENT_SOURCE_DIR_FROZEN:PATH=
 FETCHCONTENT_SOURCE_DIR_IGUANA:PATH=
 
 //When not empty, overrides where to find pre-populated content
+// for spdlog
+FETCHCONTENT_SOURCE_DIR_SPDLOG:PATH=
+
+//When not empty, overrides where to find pre-populated content
 // for yalantinglibs
 FETCHCONTENT_SOURCE_DIR_YALANTINGLIBS:PATH=
 
@@ -248,6 +252,9 @@ FETCHCONTENT_UPDATES_DISCONNECTED_FROZEN:BOOL=OFF
 
 //Enables UPDATE_DISCONNECTED behavior just for population of iguana
 FETCHCONTENT_UPDATES_DISCONNECTED_IGUANA:BOOL=OFF
+
+//Enables UPDATE_DISCONNECTED behavior just for population of spdlog
+FETCHCONTENT_UPDATES_DISCONNECTED_SPDLOG:BOOL=OFF
 
 //Enables UPDATE_DISCONNECTED behavior just for population of yalantinglibs
 FETCHCONTENT_UPDATES_DISCONNECTED_YALANTINGLIBS:BOOL=OFF
