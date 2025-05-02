@@ -50,8 +50,10 @@ int main(int argc, char *argv[]) { // Added command-line arguments
   }
 
   // Define the host and port for the server to listen on.
-  std::string host = "127.0.0.1"; // Listen only on localhost
+  const char *host = "127.0.0.1"; // Listen only on localhost
   unsigned short port = 8080;     // Listen on port 8080
+  //
+  std::cout << "Listening on " << host << ":" << port << std::endl;
 
   // Create a Haka server instance.
   Haka::Server server(host, port);

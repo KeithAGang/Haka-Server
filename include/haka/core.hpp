@@ -106,7 +106,7 @@ inline void log_message(const LogLevel &level, const std::string &message) {
                log_level_to_string(level), message);
     break;
   case LogLevel::INFO:
-    fmt::print(fg(fmt::color::green), "[{}] [{}] {}\n", ss.str(),
+    fmt::print(fg(fmt::color::white), "[{}] [{}] {}\n", ss.str(),
                log_level_to_string(level), message);
     break;
   case LogLevel::DEBUG:
