@@ -1,4 +1,5 @@
-#include <haka.hpp> // Include Haka to access Router, Request, Response, JsonResponse
+#include <Haka.hpp> // Include Haka to access Router, Request, Response, JsonResponse
+#include <string.h>
 
 // Define a simple custom struct for JSON serialization within this file's scope
 // If User struct was defined in core.hpp or a common header, you wouldn't need this here.

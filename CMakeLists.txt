@@ -4,7 +4,7 @@ cmake_minimum_required(VERSION 3.15)
 project(HakaServerExample VERSION 1.0 LANGUAGES CXX) # Changed project name for clarity
 
 # Specify C++ Standard
-set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF) # Prefer standard C++ features
 
@@ -77,7 +77,7 @@ FetchContent_Populate(frozen)
 # --- Copy Headers to Build Include Directory ---
 # Copy our own headers from src/include to build/include
 file(COPY ${CMAKE_SOURCE_DIR}/include/haka DESTINATION ${CMAKE_BUILD_INCLUDE_DIR})
-file(COPY ${CMAKE_SOURCE_DIR}/include/haka.hpp DESTINATION ${CMAKE_BUILD_INCLUDE_DIR}) # Copy the main header
+file(COPY ${CMAKE_SOURCE_DIR}/include/Haka.hpp DESTINATION ${CMAKE_BUILD_INCLUDE_DIR}) # Copy the main header
 
 # Copy external headers with custom commands
 add_custom_target(copy_external_headers ALL
